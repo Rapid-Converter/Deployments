@@ -3,9 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: encryption-service
-  namespace: rapid-converter
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: encryption-service
