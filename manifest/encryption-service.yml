@@ -1,0 +1,14 @@
+# encryption-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: encryption-service
+  namespace: rapid-converter
+spec:
+  selector:
+    app: encryption-service
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
+  type: ClusterIP

@@ -1,0 +1,38 @@
+# converter-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: converter-service
+  namespace: rapid-converter
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: converter-service
+  template:
+    metadata:
+      labels:
+        app: converter-service
+    spec:
+      containers:
+        - name: converter-service
+          image: akshat315/converter-service:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: OUTPUT_DIR
+              value: "/app/files"
+            - name: ENCRYPTION_SERVICE_URL
+              value: "http://encryption-service:8001/encrypt"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
